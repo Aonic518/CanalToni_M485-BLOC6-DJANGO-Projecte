@@ -1,0 +1,61 @@
+name: Generate Pydoc Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Create docs folder
+        run: mkdir -p docs
+
+      - name: Generate documentation
+        run: |
+          pydoc -w blog.views
+          pydoc -w blog.models
+          pydoc -w blog.urls
+          pydoc -w blog.admin
+          pydoc -w blog.apps
+          pydoc -w my_site.urls
+          pydoc -w my_site.settings
+          mv *.html docs/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build-docs
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
