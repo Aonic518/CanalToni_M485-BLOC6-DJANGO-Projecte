@@ -25,7 +25,9 @@ jobs:
 
       - name: Install Django and dependencies
         run: |
+          # Instalar Django directamente
           pip install Django==4.2.20
+          # Verificar instalación
           python -c "import django; print(f'Django version: {django.get_version()}')"
 
       - name: Create docs folder
@@ -36,12 +38,16 @@ jobs:
           # Añadir my_site al PYTHONPATH
           export PYTHONPATH="${PYTHONPATH}:$(pwd)/my_site"
           
+          # Crear un script temporal para generar la documentación
           cat > generate_docs.py << 'PYTHON_SCRIPT'
           import os
           import sys
           import pydoc
           
+          # Configurar Django antes de generar documentación
           os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_site.settings')
+          
+          # Añadir my_site al path
           sys.path.insert(0, os.path.join(os.getcwd(), 'my_site'))
           
           try:
@@ -49,10 +55,12 @@ jobs:
               django.setup()
               print('✅ Django configurado correctamente')
           except Exception as e:
-              print(f'⚠️ Django setup warning: {e}')
+              print(f'⚠️  Django setup warning: {e}')
           
+          # Cambiar al directorio docs
           os.chdir('docs')
           
+          # Lista de módulos a documentar
           modules = [
               'blog.views',
               'blog.models',
@@ -63,6 +71,7 @@ jobs:
               'my_site.settings'
           ]
           
+          # Generar documentación
           for module in modules:
               try:
                   print(f'📄 Generando documentación para {module}...')
@@ -74,118 +83,18 @@ jobs:
           print('✅ Documentación generada correctamente')
           PYTHON_SCRIPT
           
+          # Ejecutar el script
           python generate_docs.py
+          
+          # Volver al directorio raíz
           cd ..
 
-      - name: Add CSS to generated HTML files
+      - name: List generated files
         run: |
-          # Crear archivo CSS para los documentos generados
-          cat > docs/pydoc-style.css << 'EOF'
-          /* Estilos para mejorar la apariencia de los archivos generados por pydoc */
-          body {
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-              line-height: 1.6;
-              color: #333;
-              max-width: 1200px;
-              margin: 0 auto;
-              padding: 20px;
-              background: #f5f5f5;
-          }
-          
-          body > h1 {
-              background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-              color: white;
-              padding: 20px;
-              border-radius: 10px;
-              margin-top: 0;
-          }
-          
-          body > h2 {
-              color: #2c3e50;
-              border-bottom: 2px solid #3498db;
-              padding-bottom: 10px;
-              margin-top: 30px;
-          }
-          
-          a {
-              color: #3498db;
-              text-decoration: none;
-          }
-          
-          a:hover {
-              text-decoration: underline;
-          }
-          
-          dl {
-              background: white;
-              border-radius: 8px;
-              padding: 20px;
-              box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-          }
-          
-          dt {
-              font-weight: bold;
-              color: #2c3e50;
-              margin-top: 15px;
-              font-size: 1.1em;
-          }
-          
-          dd {
-              margin-left: 20px;
-              color: #666;
-          }
-          
-          pre {
-              background: #f8f9fa;
-              border-left: 4px solid #3498db;
-              padding: 15px;
-              overflow-x: auto;
-              border-radius: 5px;
-          }
-          
-          table {
-              width: 100%;
-              border-collapse: collapse;
-              background: white;
-              border-radius: 8px;
-              overflow: hidden;
-              box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-          }
-          
-          th, td {
-              padding: 12px;
-              text-align: left;
-              border-bottom: 1px solid #ddd;
-          }
-          
-          th {
-              background: #3498db;
-              color: white;
-          }
-          
-          tr:hover {
-              background: #f5f5f5;
-          }
-          
-          .footer {
-              text-align: center;
-              margin-top: 40px;
-              padding: 20px;
-              color: #666;
-              border-top: 1px solid #ddd;
-          }
-          EOF
-          
-          # Añadir CSS a cada archivo HTML generado
-          for file in docs/*.html; do
-            if [ "$file" != "docs/index.html" ]; then
-              # Insertar el CSS dentro del <head>
-              sed -i 's|</head>|<link rel="stylesheet" href="pydoc-style.css">\n</head>|' "$file"
-              echo "✅ Estilos añadidos a $file"
-            fi
-          done
+          echo "Archivos generados en docs/:"
+          ls -la docs/
 
-      - name: Create index.html with links
+      - name: Create index.html
         run: |
           cat > docs/index.html << 'EOF'
           <!DOCTYPE html>
@@ -287,26 +196,18 @@ jobs:
                       background: #2980b9;
                   }
                   
-                  .btn-back {
-                      display: inline-block;
-                      background: #2c3e50;
-                      color: white;
-                      text-decoration: none;
-                      padding: 10px 20px;
-                      border-radius: 8px;
-                      margin-top: 20px;
-                  }
-                  
-                  .btn-back:hover {
-                      background: #34495e;
-                  }
-                  
                   .footer {
                       background: #2c3e50;
                       color: white;
                       text-align: center;
                       padding: 20px;
                       font-size: 0.85rem;
+                  }
+                  
+                  @media (max-width: 768px) {
+                      .header h1 { font-size: 1.8rem; }
+                      .content { padding: 20px; }
+                      .modules { grid-template-columns: 1fr; }
                   }
               </style>
           </head>
@@ -355,13 +256,9 @@ jobs:
                               <a href="my_site.settings.html">Veure documentació →</a>
                           </div>
                       </div>
-                      <div style="text-align: center; margin-top: 30px;">
-                          <a href="https://github.com/tucanal/git" class="btn-back">📦 Veure al GitHub</a>
-                      </div>
                   </div>
                   <div class="footer">
                       <p>Documentació generada automàticament amb Pydoc | Blog Django M485</p>
-                      <p>Última actualització: $(date +'%d/%m/%Y %H:%M:%S')</p>
                   </div>
               </div>
           </body>
@@ -373,7 +270,7 @@ jobs:
           echo "=== Archivos en docs/ ==="
           ls -la docs/
           echo ""
-          echo "=== Archivos HTML ==="
+          echo "=== Verificando contenido HTML ==="
           for file in docs/*.html; do
             echo "✅ $file"
           done
