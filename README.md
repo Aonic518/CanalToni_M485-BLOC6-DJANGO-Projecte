@@ -48,7 +48,7 @@ El projecte utilitza:
 ---
 
 # Arquitectura de l'Aplicació
-
+```mermaid
 graph TD
     Client["Client / Navegador"]
     URLs["Django URLs<br/>urls.py"]
@@ -70,11 +70,13 @@ graph TD
     style Views fill:#e8f5e9
     style Models fill:#fff3e0
     style DB fill:#fce4ec
+```
 
 ---
 
 # Diagrama de Base de Dades
 
+```mermaid
 erDiagram
     AUTHOR ||--o{ POST : "1:N"
     POST }o--|| TAG : "N:M"
@@ -101,6 +103,7 @@ erDiagram
         int id PK
         string caption
     }
+```
 
 ---
 
