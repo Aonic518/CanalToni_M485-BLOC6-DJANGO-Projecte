@@ -53,9 +53,9 @@ jobs:
           try:
               import django
               django.setup()
-              print('✅ Django configurado correctamente')
+              print('Django configurado correctamente')
           except Exception as e:
-              print(f'⚠️  Django setup warning: {e}')
+              print(f'Django setup warning: {e}')
           
           # Cambiar al directorio docs
           os.chdir('docs')
@@ -74,13 +74,13 @@ jobs:
           # Generar documentación
           for module in modules:
               try:
-                  print(f'📄 Generando documentación para {module}...')
+                  print(f'Generando documentación para {module}...')
                   pydoc.writedoc(module)
-                  print(f'   ✅ {module} completado')
+                  print(f'   {module} completado')
               except Exception as e:
-                  print(f'   ❌ Error con {module}: {e}')
+                  print(f'   Error con {module}: {e}')
           
-          print('✅ Documentación generada correctamente')
+          print('Documentación generada correctamente')
           PYTHON_SCRIPT
           
           # Ejecutar el script
@@ -214,44 +214,44 @@ jobs:
           <body>
               <div class="container">
                   <div class="header">
-                      <h1>📚 Documentació del Blog Django</h1>
+                      <h1>Documentació del Blog Django</h1>
                       <p>Projecte M485 - Bloc 6</p>
                   </div>
                   <div class="content">
-                      <h2>📖 Mòduls del Projecte</h2>
+                      <h2>Mòduls del Projecte</h2>
                       <div class="modules">
                           <div class="module-card">
-                              <h3>📄 blog.views</h3>
+                              <h3>blog.views</h3>
                               <p>Controladors principals i lògica de negoci del blog</p>
                               <a href="blog.views.html">Veure documentació →</a>
                           </div>
                           <div class="module-card">
-                              <h3>📊 blog.models</h3>
+                              <h3>blog.models</h3>
                               <p>Models de dades: Author, Post i Tag</p>
                               <a href="blog.models.html">Veure documentació →</a>
                           </div>
                           <div class="module-card">
-                              <h3>🔗 blog.urls</h3>
+                              <h3>blog.urls</h3>
                               <p>Rutes i URLs de l'aplicació blog</p>
                               <a href="blog.urls.html">Veure documentació →</a>
                           </div>
                           <div class="module-card">
-                              <h3>⚙️ blog.admin</h3>
+                              <h3>blog.admin</h3>
                               <p>Configuració del panell d'administració</p>
                               <a href="blog.admin.html">Veure documentació →</a>
                           </div>
                           <div class="module-card">
-                              <h3>📱 blog.apps</h3>
+                              <h3>blog.apps</h3>
                               <p>Configuració principal de l'aplicació</p>
                               <a href="blog.apps.html">Veure documentació →</a>
                           </div>
                           <div class="module-card">
-                              <h3>🌐 my_site.urls</h3>
+                              <h3>my_site.urls</h3>
                               <p>Rutes principals del projecte</p>
                               <a href="my_site.urls.html">Veure documentació →</a>
                           </div>
                           <div class="module-card">
-                              <h3>🔧 my_site.settings</h3>
+                              <h3>my_site.settings</h3>
                               <p>Configuració i paràmetres del projecte</p>
                               <a href="my_site.settings.html">Veure documentació →</a>
                           </div>
@@ -272,7 +272,7 @@ jobs:
           echo ""
           echo "=== Verificando contenido HTML ==="
           for file in docs/*.html; do
-            echo "✅ $file"
+            echo "$file"
           done
 
       - name: Upload artifact
