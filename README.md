@@ -15,6 +15,8 @@
 </p>
 
 ---
+🔗 **[Veure documentació del projecte](https://aonic518.github.io/M485-BLOC6-DJANGO-Projecte-Blog/)**
+---
 
 # Descripció del Projecte
 
