@@ -32,6 +32,11 @@ jobs:
 
       - name: Generate documentation
         run: |
+          # Añadir el directorio my_site al PYTHONPATH
+          export PYTHONPATH="${PYTHONPATH}:$(pwd)/my_site"
+          
+          # Generar documentación desde el directorio correcto
+          cd my_site
           pydoc -w blog.views
           pydoc -w blog.models
           pydoc -w blog.urls
@@ -39,7 +44,41 @@ jobs:
           pydoc -w blog.apps
           pydoc -w my_site.urls
           pydoc -w my_site.settings
-          mv *.html docs/
+          cd ..
+          
+          # Mover todos los HTML generados a docs/
+          mv my_site/*.html docs/ 2>/dev/null || true
+
+      - name: Create index.html
+        run: |
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Documentación del Blog Django</title>
+              <style>
+                  body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+                  h1 { color: #2c3e50; }
+                  ul { list-style: none; padding: 0; }
+                  li { margin: 10px 0; }
+                  a { text-decoration: none; color: #3498db; }
+                  a:hover { text-decoration: underline; }
+              </style>
+          </head>
+          <body>
+              <h1>📚 Documentación del Proyecto Blog Django</h1>
+              <ul>
+                  <li><a href="blog.views.html">blog.views - Vistas</a></li>
+                  <li><a href="blog.models.html">blog.models - Modelos</a></li>
+                  <li><a href="blog.urls.html">blog.urls - URLs de la app</a></li>
+                  <li><a href="blog.admin.html">blog.admin - Administración</a></li>
+                  <li><a href="blog.apps.html">blog.apps - Configuración de la app</a></li>
+                  <li><a href="my_site.urls.html">my_site.urls - URLs del proyecto</a></li>
+                  <li><a href="my_site.settings.html">my_site.settings - Configuración del proyecto</a></li>
+              </ul>
+          </body>
+          </html>
+          EOF
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -48,13 +87,10 @@ jobs:
 
   deploy:
     needs: build-docs
-
     runs-on: ubuntu-latest
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
