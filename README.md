@@ -1,49 +1,150 @@
-# My Site - Django Blog Project
+# My Site - Projecte Blog amb Django
+
+<p align="center">
+  Aplicació web desenvolupada amb Django per gestionar publicacions, autors i etiquetes.
+</p>
+
+<p align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Django](https://img.shields.io/badge/Django-6.0-green)
-![Status](https://img.shields.io/badge/Status-Completed-success)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+![SQLite](https://img.shields.io/badge/Base%20de%20Dades-SQLite-lightgrey)
+![Estat](https://img.shields.io/badge/Estat-Completat-success)
+![Llicència](https://img.shields.io/badge/Llicència-MIT-yellow)
 
-Aplicació web desenvolupada amb Django per gestionar un blog amb publicacions, autors i etiquetes.
+</p>
 
 ---
 
-# Features
+# Descripció del Projecte
+
+Aquest projecte consisteix en una aplicació web desenvolupada amb Django que permet gestionar un sistema de blog complet amb publicacions, autors i etiquetes.
+
+El projecte utilitza:
+
+- Django Framework
+- SQLite3
+- Templates HTML
+- Sistema de rutes Django
+- Django ORM
+- GitHub Actions
+- Pydoc
+
+---
+
+# Característiques Principals
 
 - Sistema de publicacions
+- Visualització detallada de posts
 - Gestió d'autors
 - Sistema d'etiquetes
-- Visualització detallada de posts
-- Plantilles HTML dinàmiques
+- Templates dinàmics
 - Panell d'administració Django
-- Sistema de rutes amb Django URLs
-- ORM de Django
-- Generació automàtica de documentació amb Pydoc
-- GitHub Actions integrat
+- Arquitectura MVC
+- ORM amb Django Models
+- Documentació automàtica amb Pydoc
+- Integració contínua amb GitHub Actions
 
 ---
 
-# Technologies
+# Arquitectura de l'Aplicació
 
-- Python 3.12
-- Django 6.0
-- SQLite3
-- HTML5
-- CSS3
+```text
+                    ┌──────────────┐
+                    │    Client    │
+                    │  Navegador   │
+                    └──────┬───────┘
+                           │ HTTP Request
+                           ▼
+                 ┌────────────────────┐
+                 │    Django URLs     │
+                 │     urls.py        │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │       Views        │
+                 │     views.py       │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │      Models        │
+                 │     models.py      │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │   Base de Dades    │
+                 │      SQLite3       │
+                 └────────────────────┘
+```
 
 ---
 
-# Project Structure
+# Diagrama de Base de Dades
+
+```text
+┌────────────┐
+│   Author   │
+├────────────┤
+│ first_name │
+│ last_name  │
+│ email      │
+└─────┬──────┘
+      │
+      │ 1:N
+      ▼
+
+┌────────────┐
+│    Post    │
+├────────────┤
+│ title      │
+│ excerpt    │
+│ image_name │
+│ date       │
+│ slug       │
+│ content    │
+└─────┬──────┘
+      │
+      │ N:M
+      ▼
+
+┌────────────┐
+│    Tag     │
+├────────────┤
+│ caption    │
+└────────────┘
+```
+
+---
+
+# Tecnologies Utilitzades
+
+| Tecnologia | Descripció |
+|---|---|
+| Python 3.12 | Llenguatge principal |
+| Django 6 | Framework web |
+| SQLite3 | Base de dades |
+| HTML5 | Estructura frontend |
+| CSS3 | Estils |
+| GitHub Actions | CI/CD |
+| Pydoc | Documentació automàtica |
+
+---
+
+# Estructura del Projecte
 
 ```text
 my_site/
 │
 ├── blog/
+│   ├── migrations/
+│   ├── templates/
+│   ├── static/
 │   ├── admin.py
 │   ├── apps.py
 │   ├── models.py
-│   ├── tests.py
 │   ├── urls.py
 │   └── views.py
 │
@@ -53,11 +154,8 @@ my_site/
 │   ├── asgi.py
 │   └── wsgi.py
 │
-├── templates/
-│   ├── base.html
-│   └── 404.html
-│
 ├── docs/
+│
 ├── .github/
 │   └── workflows/
 │       └── pydoc.yml
@@ -66,3 +164,165 @@ my_site/
 ├── db.sqlite3
 ├── requirements.txt
 └── README.md
+```
+
+---
+
+# Instal·lació
+
+## Clonar Repositori
+
+```bash
+git clone https://github.com/USUARI/my_site.git
+
+cd my_site
+```
+
+---
+
+## Crear Entorn Virtual
+
+### Linux
+
+```bash
+python3 -m venv venv
+
+source venv/bin/activate
+```
+
+### Windows
+
+```powershell
+python -m venv venv
+
+venv\Scripts\activate
+```
+
+---
+
+## Instal·lar Dependències
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Configuració de la Base de Dades
+
+## Executar Migracions
+
+```bash
+python manage.py migrate
+```
+
+---
+
+## Crear Superusuari
+
+```bash
+python manage.py createsuperuser
+```
+
+---
+
+# Executar el Projecte
+
+## Iniciar Servidor Django
+
+```bash
+python manage.py runserver
+```
+
+---
+
+## Accedir a l'Aplicació
+
+```text
+http://127.0.0.1:8000/
+```
+
+---
+
+# Rutes Principals
+
+| Ruta | Descripció |
+|---|---|
+| `/` | Pàgina principal |
+| `/posts` | Totes les publicacions |
+| `/authors` | Llista d'autors |
+| `/tags` | Llista d'etiquetes |
+| `/admin` | Panell administració Django |
+
+---
+
+# Documentació Pydoc
+
+Aquest projecte genera documentació HTML automàtica utilitzant Pydoc.
+
+## Generar Documentació Manualment
+
+```bash
+pydoc -w blog.views
+pydoc -w blog.models
+pydoc -w blog.urls
+```
+
+---
+
+# GitHub Actions
+
+El projecte incorpora GitHub Actions per automatitzar:
+
+- Instal·lació de dependències
+- Generació de documentació
+- Publicació amb GitHub Pages
+- Integració contínua
+
+---
+
+# GitHub Pages
+
+La documentació generada es publica automàticament a:
+
+```text
+https://USUARI.github.io/my_site/
+```
+
+---
+
+# Captures de Pantalla
+
+## Pàgina Principal
+
+<img width="1908" height="916" alt="image" src="https://github.com/user-attachments/assets/2bbfa18c-3797-4580-aeea-b56f971bd13d" />
+
+---
+
+## Pàgina de Publicacions
+
+<img width="1906" height="920" alt="image" src="https://github.com/user-attachments/assets/bbc58c1a-fe50-41de-a419-bb2a290c3335" />
+
+---
+
+## Detall de Publicació
+
+<img width="1907" height="917" alt="image" src="https://github.com/user-attachments/assets/24936601-ffdc-4536-be80-c09a1b457b1b" />
+
+---
+
+## Panell d'Administració Django
+
+<img width="1920" height="920" alt="image" src="https://github.com/user-attachments/assets/49ba19e6-dc04-417c-b707-76b5683550c0" />
+
+---
+
+# Llicència
+
+MIT License
+
+---
+
+# Autor
+
+Copyright (c) 2025-2026 Toni Canal
