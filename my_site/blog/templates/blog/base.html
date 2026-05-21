@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} | Blog</title>
+    
+    {% load static %}
+    
+    <link rel="stylesheet" href="{% static 'blog/styles.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="{% url 'home-page' %}">LOGOBAKERY</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{% url 'home-page' %}">Services</a></li>
+                <li><a href="{% url 'posts-page' %}">Projects</a></li>
+                <li><a href="{% url 'authors-page' %}">About</a></li>
+                <li><a href="{% url 'tags-page' %}">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Inici{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Benvingut al Blog M3 - UF6</h1>
+    <p>Aquest és el projecte d'aprenentatge M3-UF6 basat en Django</p>
+</section>
+
+<section>
+    <h2 class="section-title">Darrers Posts</h2>
+    
+    <div class="posts-grid">
+        {% for post in posts %}
+            {% include 'blog/includes/post_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

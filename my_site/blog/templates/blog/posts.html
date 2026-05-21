@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Tots els Posts{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Tots els Posts</h1>
+
+<div class="posts-grid">
+    {% for post in posts %}
+        {% include 'blog/includes/post_card.html' %}
+    {% endfor %}
+</div>
+{% endblock %}

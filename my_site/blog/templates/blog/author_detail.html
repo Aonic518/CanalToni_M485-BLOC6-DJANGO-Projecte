@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ author.first_name }} {{ author.last_name }}{% endblock %}
+
+{% block content %}
+<div class="detail-card">
+    <h1>Detalls de l'Autor</h1>
+    
+    <p><strong>Nom:</strong> {{ author.first_name }}</p>
+    <p><strong>Cognom:</strong> {{ author.last_name }}</p>
+    <p><strong>Email:</strong> {{ author.email }}</p>
+    
+    <h2>Posts publicats per {{ author.first_name }} {{ author.last_name }}</h2>
+    
+    <div class="posts-grid">
+        {% for post in author.posts.all %}
+            {% include 'blog/includes/post_card.html' %}
+        {% empty %}
+            <p>Aquest autor encara no ha publicat posts.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

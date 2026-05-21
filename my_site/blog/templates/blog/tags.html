@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Tags{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Tags</h1>
+
+<div class="tags-container">
+    {% for tag in tags %}
+        <a class="tag" href="{% url 'tag-posts-page' tag.caption %}">
+            #{{ tag.caption }}
+        </a>
+    {% endfor %}
+</div>
+{% endblock %}

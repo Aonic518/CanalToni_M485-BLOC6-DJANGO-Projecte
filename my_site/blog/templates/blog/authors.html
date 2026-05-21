@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Autors{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Llista d'Autors</h1>
+
+<div class="list-container">
+    {% for author in authors %}
+        <div class="list-card">
+            <h2>{{ author.first_name }} {{ author.last_name }}</h2>
+            <p>{{ author.email }}</p>
+            <a class="btn" href="{% url 'author-detail-page' author.id %}">
+            Saber-ne +
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

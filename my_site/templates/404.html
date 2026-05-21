@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Pàgina no trobada{% endblock %}
+
+{% block content %}
+<div class="detail-card" style="text-align: center;">
+    <h1>404 - Pàgina no trobada</h1>
+    <p>Ho sentim, la pàgina que cerques no existeix.</p>
+    <a class="btn" href="{% url 'home-page' %}">Tornar a l'inici</a>
+</div>
+{% endblock %}

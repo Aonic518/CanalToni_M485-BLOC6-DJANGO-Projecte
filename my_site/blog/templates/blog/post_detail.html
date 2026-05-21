@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<article class="detail-card">
+    <img class="detail-image"
+         src="{% static 'blog/images/'|add:post.image_name %}"
+         alt="{{ post.title }}">
+    
+    <h1>{{ post.title }}</h1>
+    
+    <p class="date">
+        {{ post.date|date:"d/m/Y" }} · {{ post.author.first_name }} {{ post.author.last_name }}
+    </p>
+    
+    <div class="tags">
+        {% for tag in post.tags.all %}
+            <a href="{% url 'tag-posts-page' tag.caption %}" class="tag">
+                #{{ tag.caption }}
+            </a>
+        {% endfor %}
+    </div>
+    
+    <p class="content">
+        {{ post.content|linebreaks }}
+    </p>
+</article>
+{% endblock %}
