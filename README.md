@@ -49,73 +49,58 @@ El projecte utilitza:
 
 # Arquitectura de l'Aplicació
 
-```text
-                    ┌──────────────┐
-                    │    Client    │
-                    │  Navegador   │
-                    └──────┬───────┘
-                           │ HTTP Request
-                           ▼
-                 ┌────────────────────┐
-                 │    Django URLs     │
-                 │     urls.py        │
-                 └─────────┬──────────┘
-                           │
-                           ▼
-                 ┌────────────────────┐
-                 │       Views        │
-                 │     views.py       │
-                 └─────────┬──────────┘
-                           │
-                           ▼
-                 ┌────────────────────┐
-                 │      Models        │
-                 │     models.py      │
-                 └─────────┬──────────┘
-                           │
-                           ▼
-                 ┌────────────────────┐
-                 │   Base de Dades    │
-                 │      SQLite3       │
-                 └────────────────────┘
-```
+graph TD
+    Client["Client / Navegador"]
+    URLs["Django URLs<br/>urls.py"]
+    Views["Views<br/>views.py"]
+    Models["Models<br/>models.py"]
+    DB["Base de Dades<br/>SQLite3"]
+    
+    Client -->|HTTP Request| URLs
+    URLs --> Views
+    Views --> Models
+    Models --> DB
+    
+    DB -->|QuerySet| Models
+    Models -->|Dades| Views
+    Views -->|HTTP Response| Client
+    
+    style Client fill:#e1f5fe
+    style URLs fill:#f3e5f5
+    style Views fill:#e8f5e9
+    style Models fill:#fff3e0
+    style DB fill:#fce4ec
 
 ---
 
 # Diagrama de Base de Dades
 
-```text
-┌────────────┐
-│   Author   │
-├────────────┤
-│ first_name │
-│ last_name  │
-│ email      │
-└─────┬──────┘
-      │
-      │ 1:N
-      ▼
-
-┌────────────┐
-│    Post    │
-├────────────┤
-│ title      │
-│ excerpt    │
-│ image_name │
-│ date       │
-│ slug       │
-│ content    │
-└─────┬──────┘
-      │
-      │ N:M
-      ▼
-
-┌────────────┐
-│    Tag     │
-├────────────┤
-│ caption    │
-└────────────┘
-```
+erDiagram
+    AUTHOR ||--o{ POST : "1:N"
+    POST }o--|| TAG : "N:M"
+    
+    AUTHOR {
+        int id PK
+        string first_name
+        string last_name
+        string email
+    }
+    
+    POST {
+        int id PK
+        string title
+        string excerpt
+        string image_name
+        date date
+        string slug
+        text content
+        int author_id FK
+    }
+    
+    TAG {
+        int id PK
+        string caption
+    }
 
 ---
 
